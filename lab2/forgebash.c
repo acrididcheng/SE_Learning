@@ -23,7 +23,14 @@ int main()
         }
         else if(strcmp(cmd, "help") == 0)
         {
-
+            printf("\n");       //command1's description.... and so on
+            printf("\n");
+            printf("\n");
+            printf("\n");
+            printf("\n");
+            printf("\n");
+            printf("\n");
+            printf("exit    ----    type 'exit' to terminal the forgebash program.\n");
         }
         else if(strcmp(cmd, "command1") == 0)
         {
