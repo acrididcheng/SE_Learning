@@ -32,6 +32,7 @@ int Help();
 #define CMD_MAX_LEN 128
 #define DESC_LEN    1024
 #define CMD_NUM     10
+#define CMD_MAX_ARGV_NUM    5
 
 
 /* data struct and its operations */
@@ -127,8 +128,29 @@ int ExecuteMenu()
 
     while(1)
     {
+        int argc = 0;
+        char *argv[CMD_MAX_ARGV_NUM];
+        char *pcmd = NULL;
         printf("Input a cmd number > ");
-        scanf("%s", cmd);
+        //scanf("%s", cmd);
+        pcmd = fgets(cmd, CMD_MAX_LEN, stdin);
+        if(pcmd == NULL)
+        {
+            continue;
+        }
+
+        pcmd = strtok(pcmd," ");
+        while(pcmd != NULL && argc < CMD_MAX_ARGV_NUM)
+        {
+            argv[argc]= pcmd;
+            argc++;
+            pcmd = strtok(NULL," ");
+        }
+        if (argc >= 1)
+        {
+            *(argv[argc-1]+strlen(argv[argc-1])-1)='\0';
+        }
+
         tDataNode *p = FindCmd(head, cmd);
         if( p == NULL)
         {
@@ -138,7 +160,7 @@ int ExecuteMenu()
         printf("%s - %s\n", p->cmd, p->desc); 
         if(p->handler != NULL) 
         { 
-            p->handler();
+            p->handler(argc,argv);
         }
    
     }
